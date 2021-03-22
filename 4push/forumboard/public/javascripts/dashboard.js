@@ -2,9 +2,9 @@
 {
   const nametag = document.getElementById('nametag');
   window.onload = async function () {
-    let token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const data = {
-      authtoken: token
+      token: token
     }
     await fetch('http://localhost:3000/authentication', {
       method: 'POST',

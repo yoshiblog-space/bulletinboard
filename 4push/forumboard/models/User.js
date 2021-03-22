@@ -29,7 +29,7 @@ const users = sequelize.define('users', {
 });
 const findUser = async function (email) {
   const result = await users.findOne({ where: { email: email } });
-  if (result === null) {
+  if (!result) {
     return false;
   }
   return result.name;
@@ -37,15 +37,12 @@ const findUser = async function (email) {
 
 const checkUser = async function (email, password) {
   const checkresult = await users.findOne({ where: { email: email, password: password } });
-  if (checkresult === null) {
-    return false;
-  }
   return checkresult instanceof users;
 }
 
 const insertUser = async function (name, email, password) {
   const regist = await users.create({ name: name, email: email, password: password })
-  .catch((e) => console.error(e));
+    .catch((e) => console.error(e));
   return regist
 }
 

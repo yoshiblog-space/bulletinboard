@@ -51,7 +51,7 @@ const doLogin = function (req, res) {
 }
 //token認証
 const doTokenAuth = function (req, res){
-  const decoded = jwt.verify(req.body.authtoken, secretKey);
+  const decoded = jwt.verify(req.body.token, secretKey);
   findOption.checkUser(decoded.email, decoded.password)
     .then(registUser => {
       if (!registUser) {
