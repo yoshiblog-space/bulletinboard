@@ -1,0 +1,28 @@
+version: '3'
+ 
+services:
+  db:
+    build: './sqldb/'
+    container_name: mysqldb
+    env_file: 
+    - ./app.env
+    volumes:
+    - 'dbdata:/var/lib/mysql'
+    ports:
+    - 3306:3306
+ 
+  app:
+    build: './forumboard/'
+    container_name: expressapp
+    environment:
+      - NODE_ENV=development
+    tty: true
+    env_file: 
+      - ./app.env
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+    command: npm start
+volumes:
+  dbdata:

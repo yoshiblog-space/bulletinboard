@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Album example for Bootstrap</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="google" content="notranslate" />
+    <meta name="referrer" content="unsafe-url" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">NodeJS Fourum Board</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse justify-content-end"
+        id="navbarNavAltMarkup"
+      >
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#"
+            >みんなの掲示板</a
+          >
+          <a class="nav-item nav-link" href="#">投稿を作成</a>
+          <a class="nav-item nav-link" href="http://localhost:3000/login.html">Login</a>
+          <a class="nav-item nav-link disabled" href="http://localhost:3000/index.html">Register</a>
+        </div>
+      </div>
+    </nav>
+
+    <form id="form" class="col-md-4 mx-auto mt-5">
+      <label>Sign In</label>
+      <p id="registErr"><font color="#ff4500">既にこのメールアドレスは登録済みです。他のメールアドレスを登録してください。</font></p>
+      <div class="form-group">
+        <label for="username">User Name</label>
+        <input
+          class="form-control"
+          type="text"
+          id="username"
+          placeholder="User Name" name="name"
+        />
+        <div class="invalid-feedback">
+          名前を入力してください
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="InputEmail">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="inputEmail"
+          aria-describedby="emailHelp"
+          placeholder="Enter email" name="email"
+        />
+        <div class="invalid-feedback">
+          メールアドレスを入力してください
+        </div>
+        <small id="emailHelp" class="form-text text-muted"
+          >We'll never share your email with anyone else.</small
+        >
+      </div>
+      <div class="form-group formbody">
+        <label for="Password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder="Password"
+          name="password"
+        />
+        <div class="invalid-feedback">
+          パスワードを7文字以上入力してください
+        </div>
+      </div>
+      <div class="form-group formbody">
+        <label for="confirm-password">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          class="form-control"
+          name="confirmPassword"
+          required
+        />
+        <div class="invalid-feedback">
+          パスワードが一致しません
+        </div>
+      </div>
+      <input type="submit" class="btn-primary" id="btn"></button>
+
+    </form>
+    <script src="./javascripts/index.js"></script>
+    <script src="./javascripts/main.js"></script>
+  </body>
+</html>
