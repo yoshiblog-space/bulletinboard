@@ -45,12 +45,12 @@ const doLogin = function (req, res) {
         password: hashPassword,
       };
       const token = jwt.sign(payload, secretKey, options);
-      res.json({ token: token })
+      res.json({ token })
     })
     .catch((e) => console.error(e))
 }
 //token認証
-const doTokenAuth = function (req, res){
+const doTokenAuth = function (req, res) {
   const decoded = jwt.verify(req.body.token, secretKey);
   findOption.checkUser(decoded.email, decoded.password)
     .then(registUser => {

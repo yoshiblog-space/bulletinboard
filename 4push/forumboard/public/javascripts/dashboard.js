@@ -3,9 +3,7 @@
   const nametag = document.getElementById('nametag');
   window.onload = async function () {
     const token = localStorage.getItem('token');
-    const data = {
-      token: token
-    }
+    const data = { token }
     await fetch('http://localhost:3000/authentication', {
       method: 'POST',
       mode: 'cors',
@@ -25,8 +23,8 @@
         }
         nametag.textContent = data.name;
       })
-      .catch((e)=>{
-        console.error('えらー！'+e);
+      .catch((e) => {
+        console.error('えらー！' + e);
         window.location.href = 'http://localhost:3000/login.html';
       })
   }
