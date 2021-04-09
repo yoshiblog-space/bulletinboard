@@ -7,6 +7,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>NodeJS Forum Board</title>
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="" />
     <meta name="google" content="notranslate" />
@@ -14,18 +15,6 @@
     <style type="text/css">
       #nametag {
         display: inline;
-      }
-      .cardboxstyle{
-        margin-top: 20px;
-      }
-      .cardstyle{
-        width: 35rem;
-      }
-      .likebox{
-        display:flex;
-      }
-      .likemargin{
-        margin-right: 5px;
       }
     </style>
   </head>
@@ -48,7 +37,9 @@
         id="navbarNavAltMarkup"
       >
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/dashboard.html">みんなの掲示板</a>
+          <a class="nav-item nav-link active" href="/dashboard.html"
+            >みんなの掲示板</a
+          >
           <a class="nav-item nav-link" href="/newpost.html">投稿を作成</a>
           <li class="nav-item dropdown">
             <a
@@ -70,9 +61,43 @@
         </div>
       </div>
     </nav>
-    <div class="container" style="margin-top: 20px" id="container">
+    <div class="container-md col-sm-7 mt-5">
+      <div class="col align-items-center">
+        <form id="form" class="col g-3">
+          <div class="mb-3">
+            <p id="registErr">
+              <font color="#ff4500"
+                >登録が完了しませんでした。再度登録してください。</font
+              >
+            </p>
+            <h5 id="editContent">編集画面</h5>
+            <label for="title" class="form-label">タイトル</label>
+            <input type="text" class="form-control" id="title" />
+            <div class="invalid-feedback">
+              タイトルを20文字以内で入力してください。
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="textarea" class="form-label">コンテンツ</label>
+            <textarea
+              class="form-control"
+              id="textarea"
+              rows="5"
+              placeholder="Contents within 140 characters"
+            ></textarea>
+            <div class="invalid-feedback">140文字以内で入力してください。</div>
+          </div>
+          <div class="col-12" id="newPostContetBtn">
+            <button type="submit" class="btn btn-primary">新規投稿</button>
+          </div>
+          <div id="editContentBtn">
+            <button type="submit" class="btn btn-primary">編集完了</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <script src="./javascripts/dashboard.js"></script>
+
+    <script src="./javascripts/newpost.js"></script>
     <script src="./javascripts/main.js"></script>
   </body>
 </html>

@@ -6,7 +6,6 @@ const logger = require('morgan');
 const app = express();
 const controllers = require('./controllers/UserController');
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -21,6 +20,8 @@ app.get('/', controllers.defaltPage);
 app.post('/', controllers.doRegister);
 app.post('/logincheck', controllers.doLogin);
 app.post('/authentication', controllers.doTokenAuth);
+app.post('/contentsend', controllers.doRegistContent);
+app.post('/contentrequest', controllers.doRequestContent);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

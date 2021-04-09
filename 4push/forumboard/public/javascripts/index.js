@@ -77,11 +77,12 @@
           if (data.regist) {  //重複メールアドレスのチェック
             //submitボタンによりリロードされるのでされた際にエラー表示するようローカルストレージに保存
             localStorage.setItem('formCheckFlug', '1');
-            window.location.href = 'http://localhost:3000/index.html';
+            window.location.href = '/index.html';
           } else {
             //重複がない場合はtokenを取得し、ローカルストレージに保存
             localStorage.setItem('token', data.token);
-            window.location.href = 'http://localhost:3000/dashboard.html';
+            localStorage.setItem('id', data.id);
+            window.location.href = '/dashboard.html';
           }
         })
     }
