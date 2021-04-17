@@ -13,7 +13,7 @@ module.exports = {
     */
     await queryInterface.bulkInsert('users', [{
       name: 'test',
-      email: 'test@gmail.com',
+      email: 'test2@gmail.com',
       password: 'JVijTU0glkyh0nKrJszOlRHYgFeVk81MngGrke0A8yU=',
       createdAt: new Date(),
       updatedAt: new Date()  
@@ -22,6 +22,13 @@ module.exports = {
       name: 'John Doe2',
       email: 'test1@gmail.com',
       password: 'test',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }], {});
+    await queryInterface.bulkInsert('users', [{
+      name: 'test',
+      email: 'test3@gmail.com',
+      password: 'JVijTU0glkyh0nKrJszOlRHYgFeVk81MngGrke0A8yU=',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});

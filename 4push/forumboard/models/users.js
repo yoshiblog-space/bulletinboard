@@ -10,15 +10,26 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     //if Write fucntion this script...
-    static async findUser(email) {
-      const result = await this.findOne({ where: { email: email } });
+    static async findUserId(id) {
+      const result = await this.findOne({ where: { id } });
+      if (!result) {
+        return false;
+      }
+      return result.name;
+    }
+    static async findUserEmail(id) {
+      const result = await this.findOne({ where: { id } });
       if (!result) {
         return false;
       }
       return result.name;
     }
     static async checkUser(email, password) {
-      const checkresult = await this.findOne({ where: { email: email, password: password } });
+      const checkresult = await this.findOne({ where: { email, password } });
+      return checkresult;
+    }
+    static async checkAuth(id,email, password) {
+      const checkresult = await this.findOne({ where: { id, email, password } });
       return checkresult;
     }
     
@@ -37,6 +48,11 @@ module.exports = (sequelize, DataTypes) => {
         hooks: true,
         allowNull: false
       });
+      this.hasMany(models.likes, {
+        foreignKey: 'userId',
+        sourceKey: 'id',
+        onDelete: 'cascade',
+        allowNull: false })
     }
   };
 

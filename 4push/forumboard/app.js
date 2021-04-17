@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const app = express();
 const controllers = require('./controllers/UserController');
+const auth = require('./middleware/auth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,9 +20,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', controllers.defaltPage);
 app.post('/', controllers.doRegister);
 app.post('/logincheck', controllers.doLogin);
-app.post('/authentication', controllers.doTokenAuth);
-app.post('/contentsend', controllers.doRegistContent);
-app.post('/contentrequest', controllers.doRequestContent);
+app.get('/authentication', auth, controllers.doTokenAuth);
+app.post('/contentsend', auth, controllers.doRegistContent);
+app.post('/contentdel', auth, controllers.doDeleteContent);
+app.post('/contentupdate', auth, controllers.doUpdateContent);
+app.get('/contentrequest', auth, controllers.doRequestContent);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

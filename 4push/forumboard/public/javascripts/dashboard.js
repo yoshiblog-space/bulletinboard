@@ -4,20 +4,16 @@
   const contentData = "";
   const token = localStorage.getItem('token');
   const loginId = Number(localStorage.getItem('id'));
-  const tokenData = { token }
+
   window.onload = async function () {
     //ページ遷移の許可Auth
+    const params = { token, userid: loginId }
+    const query = new URLSearchParams(params);
     await fetch('http://localhost:3000/authentication', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(tokenData)
+        token,
+        userid: loginId
+      }
     })
       .then(dataname => dataname.json())
       .then(data => {
@@ -32,16 +28,11 @@
       })
     //contentデータの要求
     await fetch('http://localhost:3000/contentrequest', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token,
+        userid: loginId
       },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(tokenData)
     })
       .then(response => response.json())
       .then(contents => {
@@ -86,7 +77,7 @@
           contentLikeVal.classList.add('likemargin');
           contentLikebox.appendChild(contentLikeVal);
           const contentCardLikes = document.createElement('p');
-          contentCardLikes.textContent = content.likes;
+          contentCardLikes.textContent = content.likes.length;
           contentCardLikes.classList.add('likecount');
           contentLikeVal.appendChild(contentCardLikes);
           //ユーザーが一致する場合のみボタンを表示
@@ -110,22 +101,19 @@
             contentCardDelete.textContent = '削除';
             contentCardDelete.setAttribute('type', 'button');
             contentCardDelete.addEventListener('click', async function () {
-              const data = {
-                token,
-                id: content.id,
-                del: 1
-              }
-              await fetch('/contentsend', {
+              await fetch('/contentdel', {
                 method: 'POST',
                 mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 headers: {
-                  'Content-Type': 'application/json'
+                  'Content-Type': 'application/json',
+                  token,
+                  userid: loginId
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
-                body: JSON.stringify(data)
+                body: JSON.stringify({ id: content.id })
               })
                 .then(response => response.json())
                 .then(data => {

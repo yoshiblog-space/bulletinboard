@@ -11,38 +11,39 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('contents', [{
-      title: 'test',
-      content: 'contents sentese',
+    await queryInterface.bulkInsert('likes', [{
       userId: 1,
+      contentId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
-    await queryInterface.bulkInsert('contents', [{
-      title: 'test2',
-      content: 'contents sentese2',
-      userId: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }], {});
-    await queryInterface.bulkInsert('contents', [{
-      title: 'test3',
-      content: 'contents sentese4',
+    await queryInterface.bulkInsert('likes', [{
       userId: 2,
+      contentId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
-    await queryInterface.bulkInsert('contents', [{
-      title: 'test2',
-      content: 'contents sentese4',
-      userId: 2,
+    await queryInterface.bulkInsert('likes', [{
+      userId: 3,
+      contentId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
-    await queryInterface.bulkInsert('contents', [{
-      title: 'test2',
-      content: 'contents sentese4',
+    await queryInterface.bulkInsert('likes', [{
       userId: 2,
+      contentId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }], {});
+    await queryInterface.bulkInsert('likes', [{
+      userId: 3,
+      contentId: 3,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }], {});
+    await queryInterface.bulkInsert('likes', [{
+      userId: 2,
+      contentId: 2,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});

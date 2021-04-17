@@ -13,10 +13,11 @@
   const newPostContent = document.getElementById('newPostContetBtn');
   newPostContent.style.display = "block";
   let formCheckFlug = 0;
-//認証用トークン
+  //認証用トークン
   const token = localStorage.getItem('token');
-  const data = { token }
-//編集用コンテンツデータ
+  const userId = localStorage.getItem('id');
+
+  //編集用コンテンツデータ
   const editContentIdData = localStorage.getItem('contentId');
   const editContentTitleData = localStorage.getItem('contentTitle');
   const editContentTextData = localStorage.getItem('contentText');
@@ -24,6 +25,7 @@
   localStorage.removeItem('contentText');
   localStorage.removeItem('contentId');
   const result = localStorage.getItem('result');
+  let updateFlag = 0;
 
   window.onload = async function () {
     //登録完了または失敗の表示
@@ -36,19 +38,15 @@
       editContentBtn.style.display = "block";
       title.value = editContentTitleData;
       content.textContent = editContentTextData;
+      updateFlag = 1;
     }
 
     await fetch('http://localhost:3000/authentication', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
+      mode: 'cors', 
       headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-      body: JSON.stringify(data)
+        token,
+        userid: userId
+      }
     })
       .then(dataname => dataname.json())
       .then(data => {
@@ -79,22 +77,27 @@
     }
   }
   const contentsSend = async function () {
-    const userId = localStorage.getItem('id');
+    let url ='';
     const data = {
-      token,
-      userid: userId,
       id: editContentIdData,
       title: title.value,
       content: content.value,
-      del: 0
     }
-    const resdata = await fetch('/contentsend', {
+    if(!updateFlag){
+      url = '/contentsend';
+    }else{
+      url = '/contentupdate';
+    }
+
+    const resdata = await fetch(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token,
+        userid: userId,
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',

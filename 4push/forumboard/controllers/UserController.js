@@ -14,7 +14,7 @@ const defaltPage = function (req, res) {
 }
 //SigninpageのUserCheckとRegister処理
 const doRegister = async function (req, res) {
-  db.users.findUser(req.body.email)
+  db.users.findUserEmail(req.body.email)
     .then(registUser => {
       if (registUser) {
         return res.json({ regist: registUser })
@@ -28,7 +28,7 @@ const doRegister = async function (req, res) {
           };
           const token = jwt.sign(payload, secretKey, options);
           res.json({
-            token: token,
+            token,
             id: data.id  //useridの返信（メッセージ判別のため）
           })
         })
@@ -50,89 +50,66 @@ const doLogin = function (req, res) {
       };
       const token = jwt.sign(payload, secretKey, options);
       return res.json({
-        token: token,
+        token,
         id: registUser.id
       })
     })
     .catch((e) => console.error(e))
 }
-//token認証
+//ユーザー名取得
 const doTokenAuth = function (req, res) {
-  const decoded = jwt.verify(req.body.token, secretKey);
-  db.users.checkUser(decoded.email, decoded.password)
-    .then(registUser => {
-      if (!registUser) {
-        return false;
-      }
-      db.users.findUser(decoded.email)
-        .then(name => {
-          return res.json({ name: name })
-        })
-        .catch((e) => console.error(e))
+  db.users.findUserId(req.headers.userid)
+    .then(name => {
+      return res.json({ name })
     })
     .catch((e) => console.error(e))
 }
-
-
 //contentリクエスト
-const doRequestContent = function (req, res) {
-  const decoded = jwt.verify(req.body.token, secretKey);
-  db.users.checkUser(decoded.email, decoded.password)
-    .then(registUser => {
-      if (!registUser) {
-        errMessage = 'AuthError'
-        return res.json(errMessage);
-      }
-      //認証問題なければcontent送信
-      db.contents.findAll({
-        attributes: ['id', 'title', 'content', 'likes', 'userId'],
-        include: {
-          model: db.users,
-          attributes: ['id', 'name'],
-          required: true
-        }
-      })
-        .then(data => {
-          return res.json(data);
-        })
-        .catch((e) => console.error(e))
+const doRequestContent = async function (req, res) {
+  //認証問題なければcontent送信
+  const contentdata = await db.contents.findAll({
+    attributes: ['id', 'title', 'content', 'userId'],
+    //userテーブルと内部結合、likesテーブルと外部結合
+    include: [{
+      model: db.users,
+      attributes: ['id', 'name'],
+      required: true,
+    }, {
+      model: db.likes,
+      attributes: ['contentId', 'userId'],
+      required: false
+    }],
+  })
+  .then(data => {
+    return res.json(data);
+  })
+    .catch((e) => console.error(e))
+}
+//コンテンツ新規登録
+const doRegistContent = function (req, res) {
+  db.contents.insertContent(req.headers.userid, req.body.title, req.body.content)
+    .then(registContent => {
+      return res.json(registContent);
     })
     .catch((e) => console.error(e))
 }
-//コンテンツアップデート/新規登録/削除
-const doRegistContent = function (req, res) {
-  const decoded = jwt.verify(req.body.token, secretKey);
-  db.users.checkUser(decoded.email, decoded.password)
-    .then(registUser => {
-      if (!registUser) {
-        errMessage = 'AuthError'
-        return res.json(errMessage);
-      }
-      if (!req.body.id) {
-        db.contents.insertContent(req.body.userid, req.body.title, req.body.content)
-          .then(registContent => {
-            return res.json(registContent);
-          })
-          .catch((e) => console.error(e))
-      } else {
-        if (req.body.del) {
-          db.contents.destroy({
-            where: {
-              id: req.body.id
-            }
-          })
-            .then(() => {
-              return res.json({ result: 'delComplete' });
-            })
-            .catch((e) => console.error(e))
-        } else {
-          db.contents.updateContent(req.body.id, req.body.title, req.body.content)
-            .then(updateData => {
-              return res.json(updateData);
-            })
-            .catch((e) => console.error(e))
-        }
-      }
+//コンテンツ削除
+const doDeleteContent = function (req, res) {
+  db.contents.destroy({
+    where: {
+      id: req.body.id
+    }
+  })
+    .then(() => {
+      return res.json({ result: 'delComplete' });
+    })
+    .catch((e) => console.error(e))
+}
+//コンテンツアップデート
+const doUpdateContent = function (req, res) {
+  db.contents.updateContent(req.body.id, req.body.title, req.body.content)
+    .then(updateData => {
+      return res.json(updateData);
     })
     .catch((e) => console.error(e))
 }
@@ -143,5 +120,7 @@ module.exports = {
   doLogin,
   doTokenAuth,
   doRegistContent,
-  doRequestContent
+  doRequestContent,
+  doDeleteContent,
+  doUpdateContent
 }
