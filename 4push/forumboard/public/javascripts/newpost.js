@@ -77,20 +77,20 @@
     }
   }
   const contentsSend = async function () {
-    let url ='';
+    let method ='';
     const data = {
       id: editContentIdData,
       title: title.value,
       content: content.value,
     }
     if(!updateFlag){
-      url = '/contentsend';
+      method = 'POST';
     }else{
-      url = '/contentupdate';
+      method = 'PUT';
     }
 
-    const resdata = await fetch(url, {
-      method: 'POST',
+    const resdata = await fetch('/content', {
+      method,
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',

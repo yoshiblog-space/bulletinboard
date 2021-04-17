@@ -21,9 +21,9 @@ app.get('/', controllers.defaltPage);
 app.post('/', controllers.doRegister);
 app.post('/logincheck', controllers.doLogin);
 app.get('/authentication', auth, controllers.doTokenAuth);
-app.post('/contentsend', auth, controllers.doRegistContent);
-app.post('/contentdel', auth, controllers.doDeleteContent);
-app.post('/contentupdate', auth, controllers.doUpdateContent);
+app.post('/content', auth, controllers.doRegistContent);
+app.delete('/content', auth, controllers.doDeleteContent);
+app.put('/content', auth, controllers.doUpdateContent);
 app.get('/contentrequest', auth, controllers.doRequestContent);
 
 // catch 404 and forward to error handler

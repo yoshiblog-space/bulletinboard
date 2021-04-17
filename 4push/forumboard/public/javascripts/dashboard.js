@@ -101,8 +101,8 @@
             contentCardDelete.textContent = '削除';
             contentCardDelete.setAttribute('type', 'button');
             contentCardDelete.addEventListener('click', async function () {
-              await fetch('/contentdel', {
-                method: 'POST',
+              await fetch('/content', {
+                method: 'delete',
                 mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
