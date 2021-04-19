@@ -15,8 +15,8 @@
       registerErrDisplay();
       localStorage.removeItem('formCheckFlug');
     }
-    if(tokenCheck){
-      localStorage.removeItem('token');
+    if (tokenCheck) {
+      localStorage.clear();
     }
   }
   function checkForm() {
@@ -61,14 +61,15 @@
     if (!formCheckFlug) {
       dbCheck()
         .then(data => {
-          if (data.regist === false) { //登録情報の照合
+          if (!data.id) { //登録情報の照合
             localStorage.setItem('formCheckFlug', '1');
             //リロード時のエラー表示のためのlocalstarageへの登録
-            window.location.href = 'http://localhost:3000/login.html';
+            window.location.href = '/login.html';
           } else {
             //重複がない場合はtokenを取得し、localstarageに保存
             localStorage.setItem('token', data.token);
-            window.location.href = 'http://localhost:3000/dashboard.html';
+            localStorage.setItem('id', data.id);
+            window.location.href = '/dashboard.html';
           }
         })
     }
