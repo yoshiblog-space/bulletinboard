@@ -76,13 +76,14 @@ const doRequestContent = async function (req, res) {
       required: true,
     }, {
       model: db.likes,
-      attributes: ['contentId', 'userId'],
+      attributes: ['id', 'contentId', 'userId'],
       required: false
     }],
+    order: [['id', 'ASC']]
   })
-  .then(data => {
-    return res.json(data);
-  })
+    .then(data => {
+      return res.json(data);
+    })
     .catch((e) => console.error(e))
 }
 //コンテンツ新規登録
@@ -114,6 +115,24 @@ const doUpdateContent = function (req, res) {
     .catch((e) => console.error(e))
 }
 
+const doDelLike = function (req, res) {
+  db.likes.destroy({
+    where: {
+      id: req.body.id
+    }
+  })
+    .then(() => {
+      return res.json({ likesState: 0 });
+    })
+}
+const doAddLike = function (req, res) {
+  db.likes.insertLikes(req.headers.userid, req.body.contentId)
+    .then(data => {
+      return res.json({likesState:1,id:data});
+    })
+    .catch((e) => console.error(e))
+}
+
 module.exports = {
   defaltPage,
   doRegister,
@@ -122,5 +141,7 @@ module.exports = {
   doRegistContent,
   doRequestContent,
   doDeleteContent,
-  doUpdateContent
+  doUpdateContent,
+  doDelLike,
+  doAddLike
 }
