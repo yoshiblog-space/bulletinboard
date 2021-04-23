@@ -29,16 +29,30 @@ Please confirm how to  installation  Docker compose  this page.
 ```
 git clone [https://github.com/yoshiblog-space/bulletinboard.git](https://github.com/yoshiblog-space/bulletinboard.git)
 
-cd 4push/bulletinboard
+cd bulletinboard/4push
 ```
 
-### 2.Please execute the following command for build the environment
+### 2.Generate Enviroment File(.env)  
+
+```
+cp app.env.example app.env
+```
+
+### 3.Generate Docker Image
 
 This run also includes the installation described Library in package json.
 ```
-docker-compose up  -d --build
+docker-compose build
 ```
-### 3.Migration of My SQL Database Using sequelize-cli
+
+### 4.Start up Docker Container
+
+```
+docker-compose up  -d
+```
+
+### 5.Migration of My SQL Database Using sequelize-cli
+*You need to start up devlopment enviroment
 ```
 docker-compose run --rm app npx sequelize-cli db:migrate
 ```
