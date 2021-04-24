@@ -9,11 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    static async insertLikes(userId, contentId) {
+      const registContent = await this.create({ userId, contentId })
+        .catch((e) => console.error(e));
+      return registContent.id;
+    }
+
     static associate(models) {
       // define association here
       this.belongsTo(models.users)
       this.belongsTo(models.contents)
-
     }
   };
   likes.init({

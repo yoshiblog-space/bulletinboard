@@ -70,14 +70,68 @@
           const contentLikeMark = document.createElement('div');
           contentLikeMark.classList.add('likemargin');
           contentLikebox.appendChild(contentLikeMark);
-          const contentCardIcon = document.createElement('i');
+          //hearticon操作
+          const contentCardIconBtn = document.createElement('div');
+          const contentCardIcon = document.createElement('buttion');
+
           contentCardIcon.classList.add('far', 'fa-heart');
-          contentLikeMark.appendChild(contentCardIcon);
+          let delLikesId = ''; //likesを管理のためにテーブルidを保持させる
+          content.likes.forEach(likeuser => {
+            if (likeuser.userId === loginId) {
+              contentCardIcon.classList.remove('far', 'fa-heart');
+              contentCardIcon.classList.add('fas', 'fa-heart');
+              delLikesId = likeuser.id;
+            }
+          })
+          contentCardIconBtn.appendChild(contentCardIcon);
+          contentLikeMark.appendChild(contentCardIconBtn);
           const contentLikeVal = document.createElement('div');
           contentLikeVal.classList.add('likemargin');
           contentLikebox.appendChild(contentLikeVal);
           const contentCardLikes = document.createElement('p');
           contentCardLikes.textContent = content.likes.length;
+          let likesNum = content.likes.length;
+          contentCardIconBtn.onclick = async function () {
+            let methodType = 'put';
+            let sendLikedata = { contentId: content.id };
+            //likeを消す場合にはdeleteをセット
+            if (delLikesId) {
+              methodType = 'delete';
+              sendLikedata = { id: delLikesId }
+            }
+            await fetch('/likes', {
+              method: methodType,
+              mode: 'cors',
+              cache: 'no-cache',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+                token,
+                userid: loginId
+              },
+              redirect: 'follow',
+              referrerPolicy: 'no-referrer',
+              body: JSON.stringify(sendLikedata)
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (!data.likesState) {
+                  contentCardIconBtn.firstChild.classList.remove('fas', 'fa-heart');
+                  contentCardIconBtn.firstChild.classList.add('far', 'fa-heart');
+                  likesNum--;
+                  contentCardLikes.textContent = likesNum;
+                  return delLikesId = '';
+                }
+                contentCardIconBtn.firstChild.classList.remove('far', 'fa-heart');
+                contentCardIconBtn.firstChild.classList.add('fas', 'fa-heart');
+                likesNum++;
+                contentCardLikes.textContent = likesNum;
+                return delLikesId = data.id;
+              })
+              .catch((e) => console.error(e))
+          }
+
+
           contentCardLikes.classList.add('likecount');
           contentLikeVal.appendChild(contentCardLikes);
           //ユーザーが一致する場合のみボタンを表示

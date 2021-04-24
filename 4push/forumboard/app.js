@@ -25,6 +25,9 @@ app.post('/content', auth, controllers.doRegistContent);
 app.delete('/content', auth, controllers.doDeleteContent);
 app.put('/content', auth, controllers.doUpdateContent);
 app.get('/contentrequest', auth, controllers.doRequestContent);
+app.delete('/likes', auth, controllers.doDelLike);
+app.put('/likes', auth, controllers.doAddLike);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
